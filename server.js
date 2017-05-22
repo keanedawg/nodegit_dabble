@@ -22,6 +22,10 @@ var getCommitMessage = function(commit) {
 
 Git.Repository.open("../test_repo")
   .then(function(repository) {
-    makeBranch(repository, "ayyyer_lmao");
+    console.log(1);
+    makeBranch(repository, "elmao");
+    console.log(2);
+  }).then(function() {
+    console.log("ayyy");
   }).catch(
       function(reasonForFailure) {console.log(reasonForFailure)});
