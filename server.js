@@ -4,12 +4,16 @@ var getMostRecentCommit = function(repository) {
   return repository.getBranchCommit("master");
 };
 
-var makeBranch = function(respository) {
-  console.log(repository)
-  repository.createBranch("tester", getMostRecentCommit(repository)).then(
-      function(reference) {console.log("good")}, 
-      function(reasonForFailure) {console.log("bad1")}).catch(
-      function(reasonForFailure) {console.log("bad2")});
+var makeBranch = function(repository, name) {
+    getMostRecentCommit(repository).then(function(commit) {
+        repository.createBranch(name, commit.id(), true);
+    }).catch(function(reasonForFailure) {
+        console.log(reasonForFailure);
+    });
+};
+
+var getCommitID = function(commit) {
+  return commit.id();
 };
 
 var getCommitMessage = function(commit) {
@@ -17,5 +21,7 @@ var getCommitMessage = function(commit) {
 };
 
 Git.Repository.open("../test_repo")
-  .then(getMostRecentCommit).catch(
+  .then(function(repository) {
+    makeBranch(repository, "ayyyer_lmao");
+  }).catch(
       function(reasonForFailure) {console.log(reasonForFailure)});
