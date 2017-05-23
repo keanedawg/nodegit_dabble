@@ -1,4 +1,5 @@
 var Git = require("nodegit");
+var fs = require('fs');
 
 var getMostRecentCommit = function(repository) {
   return repository.getBranchCommit("master");
@@ -20,12 +21,10 @@ var getCommitMessage = function(commit) {
   return commit.message();
 };
 
-Git.Repository.open("../test_repo")
+Git.Clone.clone("https://github.com/keanedawg/test_repo.git", "../test_repo")
   .then(function(repository) {
-    console.log(1);
     makeBranch(repository, "elmao");
-    console.log(2);
   }).then(function() {
-    console.log("ayyy");
+    fs.createReadStream('throw_me.txt').pipe(fs.createWriteStream('../test_repo/hey.txt'));
   }).catch(
       function(reasonForFailure) {console.log(reasonForFailure)});
